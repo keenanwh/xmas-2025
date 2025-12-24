@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Merry Christmas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f4efe4;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .card {
+            display: flex;
+            max-width: 1000px;
+            width: 100%;
+            background: #fffdf8;
+            box-shadow: 
+                0 1px 3px rgba(0,0,0,0.04),
+                0 8px 24px rgba(0,0,0,0.08);
+            border-radius: 4px;
+            min-height: 500px;
+        }
+
+        .text-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 5rem;
+            text-align: center;
+            background: #1a472a;
+            overflow: visible;
+        }
+
+        .greeting {
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            letter-spacing: 0.02em;
+            position: relative;
+            padding-top: 0.5em;
+            overflow: visible;
+        }
+
+        .greeting-text {
+            background: linear-gradient(135deg, #ff4444 0%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding-right: 0.1em;
+            position: relative;
+            z-index: 2;
+        }
+
+        .santa-hat {
+            display: inline-block;
+            width: 1.2em;
+            height: 1.1em;
+            transform: rotate(-30deg) translateY(-0.6em);
+            margin-right: -1.1em;
+            vertical-align: middle;
+            position: relative;
+            z-index: 1;
+        }
+
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .snowflake {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            filter: blur(1px);
+            will-change: transform, opacity;
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translate(-30vw, 100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .image-panel {
+            flex: 1;
+            background: #e8e4db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 400px;
+        }
+
+        .image-panel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .placeholder {
+            color: #9a958a;
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 700px) {
+            .card {
+                flex-direction: column-reverse;
+            }
+            
+            .greeting {
+                font-size: 2.5rem;
+            }
+            
+            .image-panel {
+                min-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="snow-container" id="snow"></div>
+    <div class="card">
+        <div class="text-panel">
+            <h1 class="greeting">
+                <svg class="santa-hat" viewBox="0 5 46 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Hat base -->
+                    <path d="M2 28 Q5 12, 25 10 Q35 9, 38 15 L36 30 Q20 26, 2 28Z" fill="#cc0000"/>
+                    <!-- White fur trim -->
+                    <ellipse cx="19" cy="29" rx="18" ry="5" fill="#fff"/>
+                    <!-- Pompom -->
+                    <circle cx="38" cy="12" r="6" fill="#fff"/>
+                </svg><span class="greeting-text">Merry Christmas</span>
+            </h1>
+        </div>
+        <div class="image-panel">
+            <!-- Replace this placeholder with your image:
+                 <img src="your-image.jpg" alt="A child reading to mom"> -->
+            <span class="placeholder">Your image here</span>
+        </div>
+    </div>
+
+    <script>
+        // === PERSONALIZATION CONFIG ===
+        const recipients = {
+            mom: {
+                greeting: "Merry Christmas",
+                // Add more fields as needed:
+                // image: "mom-image.jpg",
+                // story: "...",
+                // music: "piano-piece-1.mp3",
+            },
+            trist: {
+                greeting: "Merry Christmas",
+            },
+            // Default fallback
+            default: {
+                greeting: "Merry Christmas",
+            }
+        };
+
+        // Get recipient from URL param
+        const params = new URLSearchParams(window.location.search);
+        const recipientKey = params.get('for') || 'default';
+        const recipient = recipients[recipientKey] || recipients.default;
+
+        // Apply personalization
+        document.addEventListener('DOMContentLoaded', () => {
+            const greetingText = document.querySelector('.greeting-text');
+            if (greetingText && recipient.greeting) {
+                greetingText.textContent = recipient.greeting;
+            }
+            
+            // Extend here as needed:
+            // if (recipient.image) { ... }
+            // if (recipient.story) { ... }
+        });
+
+        // === SNOW SYSTEM ===
+        const snow = document.getElementById('snow');
+        const MAX_FLAKES = 35;
+        let flakeCount = 0;
+
+        function createSnowflake() {
+            if (flakeCount >= MAX_FLAKES) return;
+            
+            flakeCount++;
+            const flake = document.createElement('div');
+            flake.className = 'snowflake';
+            
+            const size = Math.random() * 4 + 2;
+            const startX = Math.random() * 100;
+            const duration = Math.random() * 5 + 5;
+            
+            flake.style.width = size + 'px';
+            flake.style.height = size + 'px';
+            flake.style.left = startX + 'vw';
+            flake.style.top = '-10px';
+            flake.style.animation = `snowfall ${duration}s linear forwards`;
+            
+            snow.appendChild(flake);
+            
+            setTimeout(() => {
+                flake.remove();
+                flakeCount--;
+            }, duration * 1000);
+        }
+
+        setInterval(createSnowflake, 300);
+        
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createSnowflake, i * 100);
+        }
+    </script>
+</body>
+</html>

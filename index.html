@@ -23,7 +23,6 @@
             align-items: center;
             justify-content: center;
             padding: 2rem;
-            gap: 1.5rem;
             animation: fadeIn 1.5s ease;
         }
 
@@ -267,9 +266,25 @@
             left: 0;
         }
 
+        .audio-controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10;
+        }
+
         @media (max-width: 700px) {
+            body {
+                padding: 0;
+            }
+
             .card {
                 flex-direction: column-reverse;
+                border-radius: 0;
+            }
+
+            .text-panel {
+                padding: 2rem 2rem;
             }
             
             .greeting {
@@ -279,10 +294,23 @@
             .image-panel {
                 min-height: 300px;
             }
-        }
 
-        .audio-controls {
-            text-align: center;
+            @keyframes snowfall {
+                0% {
+                    transform: translate(0, 0) rotate(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 0.8;
+                }
+                90% {
+                    opacity: 0.6;
+                }
+                100% {
+                    transform: translate(-100px, 100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
         }
 
         .play-button {
@@ -293,11 +321,12 @@
             font-family: 'Cormorant Garamond', Georgia, serif;
             font-size: 1.25rem;
             color: #1a472a;
-            background: #fffdf8;
+            background: rgba(255, 253, 248, 0.95);
             border: none;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
         .play-button:hover {
@@ -395,16 +424,15 @@
         </div>
         <div class="image-panel">
             <img src="barcelona.jpg" alt="Keenan playing piano in Barcelona" id="card-image">
+            <div class="audio-controls">
+                <button class="play-button" id="play-btn">
+                    <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                    <span>Play</span>
+                </button>
+            </div>
         </div>
-    </div>
-
-    <div class="audio-controls">
-        <button class="play-button" id="play-btn">
-            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5v14l11-7z"/>
-            </svg>
-            <span>Play</span>
-        </button>
     </div>
 
     <audio id="bg-music" loop>

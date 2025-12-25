@@ -19,9 +19,17 @@
             background: #f4efe4;
             font-family: 'Cormorant Garamond', Georgia, serif;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 2rem;
+            gap: 1.5rem;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .card {
@@ -44,8 +52,114 @@
             align-items: center;
             padding: 3rem 5rem;
             text-align: center;
-            background: #1a472a;
+            background: 
+                radial-gradient(circle at 15% 20%, rgba(255, 200, 100, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 100, 100, 0.12) 0%, transparent 20%),
+                radial-gradient(circle at 75% 80%, rgba(255, 220, 120, 0.12) 0%, transparent 22%),
+                radial-gradient(circle at 25% 75%, rgba(200, 255, 200, 0.1) 0%, transparent 18%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                linear-gradient(165deg, #1e5233 0%, #1a472a 40%, #153a22 100%);
             overflow: visible;
+            position: relative;
+        }
+
+        .skyline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .christmas-lights {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            pointer-events: none;
+        }
+
+        .wire {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .wire path {
+            fill: none;
+            stroke: rgba(0,0,0,0.3);
+            stroke-width: 2;
+        }
+
+        .light {
+            position: absolute;
+            width: 8px;
+            height: 12px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: flicker 1s ease-in-out infinite;
+        }
+
+        .light::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 5px;
+            background: #333;
+            border-radius: 2px 2px 0 0;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; filter: brightness(1); }
+            50% { opacity: 0.6; filter: brightness(0.7); }
+        }
+
+        @keyframes flicker2 {
+            0%, 100% { opacity: 0.7; filter: brightness(0.8); }
+            50% { opacity: 1; filter: brightness(1.1); }
+        }
+
+        .light:nth-child(3n) { animation: flicker 1.2s ease-in-out infinite; }
+        .light:nth-child(3n+1) { animation: flicker2 0.9s ease-in-out infinite; }
+        .light:nth-child(3n+2) { animation: flicker 1.5s ease-in-out infinite 0.3s; }
+        
+        .light.red { background: #ff3333; box-shadow: 0 0 10px #ff3333; }
+        .light.blue { background: #3399ff; box-shadow: 0 0 10px #3399ff; }
+        .light.green { background: #33ff66; box-shadow: 0 0 10px #33ff66; }
+        .light.yellow { background: #ffdd33; box-shadow: 0 0 10px #ffdd33; }
+        .light.orange { background: #ff9933; box-shadow: 0 0 10px #ff9933; }
+
+        .year-label {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .signature {
+            margin-top: 2rem;
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .message {
+            margin-top: 1.5rem;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.85);
+            max-width: 320px;
+            line-height: 1.6;
+            font-style: italic;
         }
 
         .greeting {
@@ -59,7 +173,7 @@
         }
 
         .greeting-text {
-            background: linear-gradient(135deg, #ff4444 0%, #ffffff 100%);
+            background: linear-gradient(135deg, #cc0000 0%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -77,6 +191,24 @@
             vertical-align: middle;
             position: relative;
             z-index: 1;
+            cursor: pointer;
+            animation: wobble 0.5s ease 0.5s;
+        }
+
+        .santa-hat:hover {
+            animation: wobbleHover 0.5s ease;
+        }
+
+        @keyframes wobble {
+            0%, 100% { transform: rotate(-30deg) translateY(-0.6em); }
+            25% { transform: rotate(-40deg) translateY(-0.6em); }
+            75% { transform: rotate(-20deg) translateY(-0.6em); }
+        }
+
+        @keyframes wobbleHover {
+            0%, 100% { transform: rotate(-30deg) translateY(-0.6em); }
+            25% { transform: rotate(-40deg) translateY(-0.6em); }
+            75% { transform: rotate(-20deg) translateY(-0.6em); }
         }
 
         .snow-container {
@@ -135,12 +267,6 @@
             left: 0;
         }
 
-        .placeholder {
-            color: #9a958a;
-            font-style: italic;
-            font-size: 1.1rem;
-        }
-
         @media (max-width: 700px) {
             .card {
                 flex-direction: column-reverse;
@@ -154,12 +280,106 @@
                 min-height: 300px;
             }
         }
+
+        .audio-controls {
+            text-align: center;
+        }
+
+        .play-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.25rem;
+            color: #1a472a;
+            background: #fffdf8;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .play-button:hover {
+            background: #fff;
+            transform: scale(1.05);
+        }
+
+        .play-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
     </style>
 </head>
 <body>
     <div class="snow-container" id="snow"></div>
     <div class="card">
         <div class="text-panel">
+            <svg class="skyline" viewBox="0 0 400 100" preserveAspectRatio="xMidYMax slice" fill="#000">
+                <!-- Base ground -->
+                <rect x="0" y="95" width="400" height="5"/>
+                <!-- Buildings left to right -->
+                <!-- Generic buildings left -->
+                <rect x="5" y="70" width="15" height="25"/>
+                <rect x="22" y="60" width="12" height="35"/>
+                <rect x="36" y="75" width="10" height="20"/>
+                <!-- Tower Bridge left tower -->
+                <rect x="50" y="45" width="12" height="50"/>
+                <rect x="48" y="40" width="16" height="8"/>
+                <polygon points="48,40 56,25 64,40"/>
+                <!-- Tower Bridge span -->
+                <rect x="62" y="55" width="30" height="4"/>
+                <rect x="62" y="65" width="30" height="3"/>
+                <!-- Tower Bridge right tower -->
+                <rect x="92" y="45" width="12" height="50"/>
+                <rect x="90" y="40" width="16" height="8"/>
+                <polygon points="90,40 98,25 106,40"/>
+                <!-- The Gherkin -->
+                <ellipse cx="130" cy="65" rx="10" ry="30"/>
+                <rect x="120" y="90" width="20" height="5"/>
+                <!-- Generic buildings -->
+                <rect x="150" y="65" width="14" height="30"/>
+                <rect x="166" y="55" width="10" height="40"/>
+                <!-- The Shard -->
+                <polygon points="190,95 200,10 210,95"/>
+                <!-- St Paul's dome -->
+                <rect x="225" y="70" width="30" height="25"/>
+                <ellipse cx="240" cy="70" rx="12" ry="8"/>
+                <rect x="238" y="55" width="4" height="15"/>
+                <circle cx="240" cy="53" r="3"/>
+                <!-- Big Ben / Elizabeth Tower -->
+                <rect x="270" y="35" width="14" height="60"/>
+                <rect x="268" y="30" width="18" height="8"/>
+                <polygon points="268,30 277,15 286,30"/>
+                <rect x="275" y="10" width="4" height="8"/>
+                <!-- Parliament -->
+                <rect x="286" y="60" width="35" height="35"/>
+                <rect x="290" y="55" width="5" height="8"/>
+                <rect x="305" y="55" width="5" height="8"/>
+                <!-- London Eye -->
+                <circle cx="345" cy="55" r="30" fill="none" stroke="#000" stroke-width="2"/>
+                <circle cx="345" cy="55" r="3"/>
+                <line x1="345" y1="55" x2="345" y2="85" stroke="#000" stroke-width="2"/>
+                <rect x="340" y="85" width="10" height="10"/>
+                <!-- Generic right buildings -->
+                <rect x="380" y="70" width="12" height="25"/>
+                <rect x="394" y="65" width="8" height="30"/>
+            </svg>
+            <span class="year-label">Xmas 2025</span>
+            <div class="christmas-lights">
+                <svg class="wire" viewBox="0 0 100 20" preserveAspectRatio="none">
+                    <path d="M0,5 Q12,12 20,8 Q30,3 40,10 Q50,16 60,9 Q70,3 80,11 Q90,17 100,6"/>
+                </svg>
+                <div class="light red" style="left: 8%; top: 31px"></div>
+                <div class="light blue" style="left: 18%; top: 30px"></div>
+                <div class="light green" style="left: 28%; top: 22px"></div>
+                <div class="light yellow" style="left: 38%; top: 30px"></div>
+                <div class="light orange" style="left: 50%; top: 42px"></div>
+                <div class="light red" style="left: 60%; top: 31px"></div>
+                <div class="light blue" style="left: 70%; top: 24px"></div>
+                <div class="light green" style="left: 80%; top: 37px"></div>
+                <div class="light yellow" style="left: 90%; top: 42px"></div>
+            </div>
             <h1 class="greeting">
                 <svg class="santa-hat" viewBox="0 5 46 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <!-- Hat base -->
@@ -170,30 +390,62 @@
                     <circle cx="38" cy="12" r="6" fill="#fff"/>
                 </svg><span class="greeting-text">Merry Christmas</span>
             </h1>
+            <div class="message" id="message"></div>
+            <div class="signature">Love, Keenan</div>
         </div>
         <div class="image-panel">
-            <!-- Replace this placeholder with your image:
-                 <img src="your-image.jpg" alt="A child reading to mom"> -->
-            <span class="placeholder">Your image here</span>
+            <img src="barcelona.jpg" alt="Keenan playing piano in Barcelona" id="card-image">
         </div>
     </div>
 
+    <div class="audio-controls">
+        <button class="play-button" id="play-btn">
+            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span>Play</span>
+        </button>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
+        // === AUDIO CONTROLS ===
+        const playBtn = document.getElementById('play-btn');
+        const bgMusic = document.getElementById('bg-music');
+        const playIcon = playBtn.querySelector('.play-icon');
+        const playText = playBtn.querySelector('span');
+
+        playBtn.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+                playText.textContent = 'Pause';
+            } else {
+                bgMusic.pause();
+                playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+                playText.textContent = 'Play';
+            }
+        });
+
         // === PERSONALIZATION CONFIG ===
         const recipients = {
             mom: {
                 greeting: "Merry Christmas",
-                // Add more fields as needed:
-                // image: "mom-image.jpg",
-                // story: "...",
-                // music: "piano-piece-1.mp3",
+                image: null, // Will use default for now
+                messageFile: "message-mom.txt",
             },
             trist: {
                 greeting: "Merry Christmas",
+                image: null,
+                messageFile: "message-trist.txt",
             },
-            // Default fallback
             default: {
                 greeting: "Merry Christmas",
+                image: "barcelona.jpg",
+                messageFile: "message-default.txt",
             }
         };
 
@@ -203,20 +455,35 @@
         const recipient = recipients[recipientKey] || recipients.default;
 
         // Apply personalization
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const greetingText = document.querySelector('.greeting-text');
             if (greetingText && recipient.greeting) {
                 greetingText.textContent = recipient.greeting;
             }
             
-            // Extend here as needed:
-            // if (recipient.image) { ... }
-            // if (recipient.story) { ... }
+            const cardImage = document.getElementById('card-image');
+            if (cardImage && recipient.image) {
+                cardImage.src = recipient.image;
+            }
+
+            // Load message from file
+            const messageEl = document.getElementById('message');
+            if (messageEl && recipient.messageFile) {
+                try {
+                    const response = await fetch(recipient.messageFile);
+                    if (response.ok) {
+                        const text = await response.text();
+                        messageEl.textContent = text;
+                    }
+                } catch (e) {
+                    // No message file found, that's okay
+                }
+            }
         });
 
         // === SNOW SYSTEM ===
         const snow = document.getElementById('snow');
-        const MAX_FLAKES = 35;
+        const MAX_FLAKES = 175;
         let flakeCount = 0;
 
         function createSnowflake() {
@@ -226,7 +493,7 @@
             const flake = document.createElement('div');
             flake.className = 'snowflake';
             
-            const size = Math.random() * 4 + 2;
+            const size = Math.random() * 6 + 3;
             const startX = Math.random() * 100;
             const duration = Math.random() * 5 + 5;
             
@@ -244,10 +511,10 @@
             }, duration * 1000);
         }
 
-        setInterval(createSnowflake, 300);
+        setInterval(createSnowflake, 60);
         
-        for (let i = 0; i < 10; i++) {
-            setTimeout(createSnowflake, i * 100);
+        for (let i = 0; i < 50; i++) {
+            setTimeout(createSnowflake, i * 20);
         }
     </script>
 </body>

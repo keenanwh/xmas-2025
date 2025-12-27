@@ -41,6 +41,7 @@
                 0 8px 24px rgba(0,0,0,0.08);
             border-radius: 4px;
             min-height: 500px;
+            position: relative;
         }
 
         .text-panel {
@@ -100,7 +101,7 @@
         /* Second row - 2 lights */
         .shard-light:nth-child(2) {
             top: 10px;
-            left: 30%;
+            left: 35%;
             background: #33ccff;
             box-shadow: 0 0 8px 3px #33ccff;
             animation: shardPulse2 2s ease-in-out infinite 0.4s;
@@ -108,7 +109,7 @@
 
         .shard-light:nth-child(3) {
             top: 10px;
-            left: 70%;
+            left: 65%;
             background: #ffcc00;
             box-shadow: 0 0 8px 3px #ffcc00;
             animation: shardPulse3 2s ease-in-out infinite 0.8s;
@@ -117,7 +118,7 @@
         /* Third row - 3 lights */
         .shard-light:nth-child(4) {
             top: 20px;
-            left: 15%;
+            left: 22%;
             background: #66ff66;
             box-shadow: 0 0 8px 3px #66ff66;
             animation: shardPulse1 2s ease-in-out infinite 0.2s;
@@ -133,7 +134,7 @@
 
         .shard-light:nth-child(6) {
             top: 20px;
-            left: 85%;
+            left: 78%;
             background: #ff9933;
             box-shadow: 0 0 8px 3px #ff9933;
             animation: shardPulse3 2s ease-in-out infinite 1s;
@@ -226,6 +227,31 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
+        .recipient-name {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            max-height: 60px;
+            filter: brightness(0) invert(1) opacity(0.85);
+        }
+
+        .handwritten-signature {
+            margin-top: 2rem;
+            max-height: 50px;
+            filter: brightness(0) invert(1) opacity(0.85);
+        }
+
+        .personal-note {
+            position: absolute;
+            right: 10%;
+            top: 35%;
+            max-width: 400px;
+            transform: rotate(15deg);
+            opacity: 0.9;
+            pointer-events: none;
+            z-index: 5;
+        }
+
         .signature {
             margin-top: 2rem;
             font-family: 'Caveat', cursive;
@@ -234,7 +260,7 @@
         }
 
         .message {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             font-family: 'Cormorant Garamond', Georgia, serif;
             font-size: 1.4rem;
             color: rgba(255, 255, 255, 0.85);
@@ -244,12 +270,12 @@
         }
 
         .greeting {
-            font-family: 'Caveat', cursive;
+            font-family: 'Brush Script MT', cursive;
             font-size: 3.5rem;
             line-height: 1.2;
             letter-spacing: 0.02em;
             position: relative;
-            padding-top: 0.5em;
+            padding-top: 0em;
             overflow: visible;
         }
 
@@ -485,6 +511,7 @@
                 <div class="shard-light"></div>
             </div>
             <span class="year-label">Xmas 2025</span>
+            <img class="recipient-name" id="recipient-name" src="" alt="" style="display: none;">
             <div class="christmas-lights">
                 <svg class="wire" viewBox="0 0 100 20" preserveAspectRatio="none">
                     <path d="M0,5 Q12,12 20,8 Q30,3 40,10 Q50,16 60,9 Q70,3 80,11 Q90,17 100,6"/>
@@ -507,11 +534,13 @@
                     <ellipse cx="19" cy="29" rx="18" ry="5" fill="#fff"/>
                     <!-- Pompom -->
                     <circle cx="38" cy="12" r="6" fill="#fff"/>
-                </svg><span class="greeting-text">Merry Christmas</span>
+                </svg><span class="greeting-text">Merry Christmas and Happy Holidays!</span>
             </h1>
             <div class="message" id="message"></div>
-            <div class="signature">Love, Keenan</div>
+            <img class="handwritten-signature" id="signature" src="signature.png" alt="Love, Keenan" onerror="this.style.display='none'; document.getElementById('signature-fallback').style.display='block';">
+            <div class="signature" id="signature-fallback" style="display: none;">Love, Keenan</div>
         </div>
+        <img class="personal-note" id="personal-note" src="" alt="" style="display: none;">
         <div class="image-panel">
             <img src="barcelona.jpg" alt="Keenan playing piano in Barcelona" id="card-image">
             <div class="audio-controls">
@@ -551,19 +580,25 @@
         // === PERSONALIZATION CONFIG ===
         const recipients = {
             mom: {
-                greeting: "Merry Christmas",
-                image: null, // Will use default for now
+                greeting: "Merry Christmas and Happy Holidays",
+                image: null,
                 messageFile: "message-mom.txt",
+                nameImage: "name-mom.png",
+                noteImage: "note-mom.png",
             },
             trist: {
-                greeting: "Merry Christmas",
+                greeting: "Merry Christmas and Happy Holidays",
                 image: null,
                 messageFile: "message-trist.txt",
+                nameImage: "name-trist.png",
+                noteImage: "note-trist.png",
             },
             default: {
-                greeting: "Merry Christmas",
+                greeting: "Merry Christmas and Happy Holidays",
                 image: "barcelona.jpg",
                 messageFile: "message-default.txt",
+                nameImage: null,
+                noteImage: null,
             }
         };
 
@@ -582,6 +617,20 @@
             const cardImage = document.getElementById('card-image');
             if (cardImage && recipient.image) {
                 cardImage.src = recipient.image;
+            }
+
+            // Load handwritten name
+            const recipientName = document.getElementById('recipient-name');
+            if (recipientName && recipient.nameImage) {
+                recipientName.src = recipient.nameImage;
+                recipientName.style.display = 'block';
+            }
+
+            // Load handwritten personal note
+            const personalNote = document.getElementById('personal-note');
+            if (personalNote && recipient.noteImage) {
+                personalNote.src = recipient.noteImage;
+                personalNote.style.display = 'block';
             }
 
             // Load message from file
